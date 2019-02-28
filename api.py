@@ -10,9 +10,7 @@ app = Flask(__name__)
 def insert_data():
     try:
         data=request.get_json()
-        email=data["email"]
-        gender=data["gender"]
-        dbConnect.db.employee.insert_one({"email":email,"gender":gender})
+        dbConnect.db.employee.insert_one(data)
         return jsonify({'message' : 'successfully entered data'})
     except Exception as e:
         return jsonify({'error' : str(e)})
@@ -22,7 +20,9 @@ def insert_data():
 def get_search_data():
     try:
         data=request.get_json(force=True)
-        result=dbConnect.db.employee.find(data)
+        email=data["email"]
+        gender=data["gender"]
+        result=dbConnect.db.employee.find({"email":email,"gender":gender})
         list_result=[]
         for row in result:
             list_result.append(row)
