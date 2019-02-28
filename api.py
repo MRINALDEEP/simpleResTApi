@@ -10,7 +10,9 @@ app = Flask(__name__)
 def insert_data():
     try:
         data=request.get_json()
-        dbConnect.db.employee.insert_one(data)
+        email=data["email"]
+        gender=data["gender"]
+        dbConnect.db.employee.insert_one({"email":email,"gender":gender})
         return jsonify({'message' : 'successfully entered data'})
     except Exception as e:
         return jsonify({'error' : str(e)})
